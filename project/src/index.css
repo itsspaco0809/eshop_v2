@@ -1,0 +1,781 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* =========================================================
+   LCP GLOBAL / SAFARI / LENIS FIX
+   ========================================================= */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden !important;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   ROOT / VIEWPORT
+   ========================================================= */
+
+html {
+  min-height: 100%;
+
+  width: 100%;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  scrollbar-gutter: stable;
+
+  background-color: #ffffff;
+
+  color-scheme: light;
+
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  --lcp-footer-height: 0px;
+  --mobile-menu-background: #ffffff;
+  --browser-chrome-background: #ffffff;
+}
+
+html.dark {
+  background-color: #121212;
+
+  color-scheme: dark;
+}
+
+
+/* =========================================================
+   SAFE AREA VARIABLES
+   ========================================================= */
+
+:root {
+  --app-background: #ffffff;
+  --safe-area-background: #ffffff;
+  --mobile-menu-background: #ffffff;
+  --browser-chrome-background: #ffffff;
+  --footer-background: #ffffff;
+  --cart-background: #ffffff;
+
+  --safe-area-top: env(
+    safe-area-inset-top,
+    0px
+  );
+
+  --safe-area-right: env(
+    safe-area-inset-right,
+    0px
+  );
+
+  --safe-area-bottom: env(
+    safe-area-inset-bottom,
+    0px
+  );
+
+  --safe-area-left: env(
+    safe-area-inset-left,
+    0px
+  );
+
+  --safe-area-background: #ffffff;
+}
+
+html.dark {
+  --safe-area-background: #121212;
+  --app-background: #121212;
+  --mobile-menu-background: #0a0a0a;
+  --browser-chrome-background: #121212;
+  --footer-background: #121212;
+  --cart-background: #0a0a0a;
+}
+
+/* ProductDetail uses neutral-950 (#0a0a0a). Its iOS bottom safe-area
+   must use the same surface instead of the normal page canvas (#121212). */
+html.product-detail-open {
+  --safe-area-background: #0a0a0a;
+  --browser-chrome-background: #0a0a0a;
+}
+
+html.dark.product-detail-open {
+  --app-background: #0a0a0a;
+}
+
+
+/* =========================================================
+   INTRO LOCK
+   ========================================================= */
+
+html.intro-active {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
+
+/* =========================================================
+   CART DRAWER SCROLL LOCK
+   ========================================================= */
+
+html.cart-open {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  scroll-behavior: auto !important;
+}
+
+html.cart-open body {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  touch-action: none !important;
+}
+
+html.cart-open #root {
+  overflow-x: clip;
+}
+
+html.cart-open [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+
+/* =========================================================
+   MOBILE MENU SCROLL LOCK
+   ========================================================= */
+
+html.mobile-menu-open,
+body.mobile-menu-open {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
+/* Do not put touch-action:none on the body here. The menu's own
+   scroll container must remain touch-scrollable on iOS and Android. */
+html.mobile-menu-open body {
+  touch-action: auto !important;
+}
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+html,
+body {
+  @apply text-neutral-900 dark:text-neutral-50;
+
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  overscroll-behavior-y: none;
+}
+
+body {
+  min-height: 100%;
+
+  background-color: var(--app-background, #ffffff);
+
+  overflow-x: hidden;
+}
+
+html.dark body {
+  background-color: var(--app-background, #121212);
+}
+
+
+/* =========================================================
+   ROOT
+   ========================================================= */
+
+#root {
+  min-height: 100%;
+
+  width: 100%;
+  max-width: 100%;
+
+  background-color: var(--app-background, #ffffff);
+
+  overflow-x: clip;
+}
+
+html.dark #root {
+  background-color: var(--app-background, #121212);
+}
+
+
+/* =========================================================
+   APP SHELL
+   ========================================================= */
+
+#app-shell,
+#app-wrapper {
+  width: 100%;
+  min-width: 0;
+
+  min-height: 100dvh;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+#main-content {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+
+/* =========================================================
+   GLOBAL SECTION WIDTH PROTECTION
+   ========================================================= */
+
+main,
+section,
+footer,
+header {
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   FIXED NAVBAR
+   ========================================================= */
+
+header {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  width: 100%;
+
+  z-index: 50;
+
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
+  pointer-events: auto;
+}
+
+
+/* =========================================================
+   FOOTER BASE
+   ========================================================= */
+
+footer {
+  width: 100%;
+
+  overflow: hidden;
+
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+
+/* =========================================================
+   DESKTOP STICKY FOOTER
+   ========================================================= */
+
+@media (min-width: 1024px) {
+
+  footer[data-sticky-footer] {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+
+    z-index: 0;
+
+    pointer-events: auto;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE / TABLET NORMAL FOOTER
+   ========================================================= */
+
+@media (max-width: 1023px) {
+
+  footer[data-sticky-footer] {
+    position: relative;
+
+    left: auto;
+    right: auto;
+    bottom: auto;
+
+    width: 100%;
+
+    z-index: 10;
+
+    pointer-events: auto;
+  }
+
+}
+
+
+/* =========================================================
+   FOOTER SAFE AREA
+   ========================================================= */
+
+@supports (
+  padding-bottom: env(safe-area-inset-bottom)
+) {
+
+  footer[data-sticky-footer] {
+    padding-bottom: 0;
+  }
+
+}
+
+
+/* =========================================================
+   FULLSCREEN SAFE-AREA HELPERS
+   ========================================================= */
+
+.fullscreen-safe-area {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  min-height: 100dvh;
+
+  background-color:
+    var(--safe-area-background);
+}
+
+.fullscreen-safe-area-content {
+  min-height: 100dvh;
+
+  padding-bottom:
+    var(--safe-area-bottom);
+}
+
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+  @apply bg-neutral-900 text-white dark:bg-white dark:text-neutral-900;
+}
+
+
+/* =========================================================
+   SCROLLBAR / UTILITIES
+   ========================================================= */
+
+@layer utilities {
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-100 dark:bg-neutral-950;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-300 dark:bg-neutral-800;
+
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-400 dark:hover:bg-neutral-700;
+  }
+
+
+  /* =======================================================
+     SAFE AREA HELPERS
+     ======================================================= */
+
+  .pb-safe {
+    padding-bottom:
+      var(--safe-area-bottom);
+  }
+
+  .pt-safe {
+    padding-top:
+      var(--safe-area-top);
+  }
+
+  .px-safe {
+    padding-left:
+      var(--safe-area-left);
+
+    padding-right:
+      var(--safe-area-right);
+  }
+
+  .safe-area-bottom {
+    padding-bottom:
+      var(--safe-area-bottom);
+
+    background-color:
+      var(--safe-area-background);
+  }
+
+
+  /* =======================================================
+     FADE IN
+     ======================================================= */
+
+  @keyframes fadeIn {
+
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+  }
+
+  .animate-fadeIn {
+    animation:
+      fadeIn
+      1s
+      ease;
+  }
+
+
+  /* =======================================================
+     PAGE FADE
+     ======================================================= */
+
+  @keyframes pageFade {
+
+    from {
+      opacity: 0.6;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+  }
+
+  .animate-pageFade {
+    animation:
+      pageFade
+      1s
+      cubic-bezier(
+        0.16,
+        1,
+        0.3,
+        1
+      )
+      forwards;
+  }
+
+
+  /* =======================================================
+     STAR PULSE
+     ======================================================= */
+
+  @keyframes starPulse {
+
+    0%,
+    100% {
+      transform: scale(1);
+
+      opacity: 1;
+
+      filter:
+        drop-shadow(
+          0 0 2px
+          rgba(
+            251,
+            191,
+            36,
+            0.4
+          )
+        );
+    }
+
+    50% {
+      transform: scale(1.2);
+
+      opacity: 0.8;
+
+      filter:
+        drop-shadow(
+          0 0 6px
+          rgba(
+            251,
+            191,
+            36,
+            0.8
+          )
+        );
+    }
+
+  }
+
+  .animate-star-pulse {
+    animation:
+      starPulse
+      2s
+      cubic-bezier(
+        0.4,
+        0,
+        0.6,
+        1
+      )
+      infinite;
+  }
+
+
+  /* =======================================================
+     GRADIENT
+     ======================================================= */
+
+  @keyframes gradient {
+
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+
+  }
+
+  .animate-gradient {
+    animation:
+      gradient
+      4s
+      ease
+      infinite;
+  }
+
+
+  /* =======================================================
+     GRAIN
+     ======================================================= */
+
+  .bg-grain {
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='highQualityNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23highQualityNoise)'/%3E%3C/svg%3E");
+
+    background-repeat: repeat;
+  }
+
+}
+
+
+/* =========================================================
+   BOLT / STACKBLITZ BADGE REMOVAL
+   ========================================================= */
+
+body > a[href*='bolt'],
+body > a[href*='stackblitz'],
+a[href*='bolt.new'],
+a[href*='stackblitz.com'],
+#bolt-badge,
+[data-bolt-badge],
+[class*='bolt-badge'],
+[id*='bolt'] {
+
+  display: none !important;
+
+  visibility: hidden !important;
+
+  opacity: 0 !important;
+
+  pointer-events: none !important;
+
+  transform: scale(0) !important;
+
+  width: 0 !important;
+  height: 0 !important;
+
+  position: absolute !important;
+
+  left: -9999px !important;
+  top: -9999px !important;
+}
+
+
+/* =========================================================
+   SAFARI VIEWPORT
+   ========================================================= */
+
+@supports (height: 100svh) {
+
+  .min-h-screen {
+    min-height: 100svh;
+  }
+
+}
+
+@supports (height: 100dvh) {
+
+  .min-h-screen {
+    min-height: 100dvh;
+  }
+
+}
+
+
+/* =========================================================
+   PRODUCT DETAIL — HARD SCROLL LOCK
+   ========================================================= */
+
+html.product-loading,
+html.product-loading body {
+  overflow: hidden !important;
+
+  height: 100% !important;
+
+  overscroll-behavior: none !important;
+}
+
+html.product-loading body {
+  touch-action: none !important;
+}
+
+html.product-loading {
+  scroll-behavior: auto !important;
+}
+
+html.product-loading #root {
+  overflow: hidden !important;
+
+  height: 100% !important;
+}
+
+html.product-loading header {
+  pointer-events: auto !important;
+
+  z-index: 50 !important;
+}
+
+
+/* =========================================================
+   IOS / SAFARI WIDTH STABILITY
+   ========================================================= */
+
+html,
+body,
+#root {
+  max-width: 100vw;
+}
+
+
+/* =========================================================
+   TAP HIGHLIGHT
+   ========================================================= */
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   MEDIA
+   ========================================================= */
+
+img,
+video,
+svg,
+canvas {
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   HORIZONTAL SCROLLBAR HIDE
+   ========================================================= */
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* iOS Safari bottom safe-area canvas. This is deliberately independent from
+   transformed/composited components so theme changes repaint immediately. */
+.lcp-safe-area-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: env(safe-area-inset-bottom, 0px);
+  background: var(--safe-area-background);
+  pointer-events: none;
+  transition: background-color 0s;
+  z-index: 41;
+}
+
+
+/* Keep the document canvas behind ProductDetail identical to its neutral-950 surface. */
+html.product-detail-open #app-shell,
+html.product-detail-open #app-wrapper,
+html.product-detail-open #main-content {
+  background-color: #0a0a0a !important;
+}
